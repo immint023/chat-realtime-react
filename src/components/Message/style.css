@@ -1,6 +1,7 @@
 .receive {
+  display: inline-block;
   max-width: 30%;
-  padding: 1.5rem;
+  padding: .86rem;
   margin-bottom: 15px;
   border-radius: 10px;
   background: #ecf0f1;
@@ -8,15 +9,25 @@
   font-size: .8em;
   background: #EEEEEE;
   color: black;
+  word-break: break-all;
+  box-shadow: 4px 4px 12 #f4f4f4;
+}
+.message-send {
+  text-align: right;
+}
+.message-receive {
+  text-align: left;
 }
 .send {
-  width: 30%;
-  font-size: .8em;
+  display: inline-block;
+  max-width: 30%;
+  font-size: .86em;
   margin-bottom: 15px;
-  padding: 1.5rem;
+  padding: .6rem;
   border-radius: 10px;
-  margin-left: auto;
   background:#26de81;
   color: white;
   font-family: 'Varela Round', sans-serif;
+  word-break: break-all;
+  box-shadow: 4px 4px 12 #f4f4f4;
 }

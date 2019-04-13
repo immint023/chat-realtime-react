@@ -27,6 +27,7 @@ body {
   background: #bdc3c7;
   scroll-behavior: smooth;
   background: white;
+  position: relative;
 }
 
 ::-webkit-scrollbar { 

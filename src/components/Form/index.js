@@ -3,18 +3,18 @@ import './style.css';
 
 class Form extends Component {
   render() {
-    const { handleChanges, handlePress } = this.props;
+    const { handleChanges, handlePress, children } = this.props;
     return (
       <>
         <div className="form">
           <input
             autoFocus
             type="text"
-            placeholder="Type Message" 
+            placeholder="Type Message"
             onChange={handleChanges}
             onKeyDown={handlePress}
           />
-          <button type="button">Send</button>
+          {children}
         </div>
       </>
     )
