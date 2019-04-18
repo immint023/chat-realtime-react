@@ -7,7 +7,7 @@ function Message({ type, children }) {
   if (type === 'send') {
     divClass = 'message-send';
   } else {
-    divClass = 'message-receive'
+    divClass = 'message-receive';
   }
   return (
     <>
@@ -15,7 +15,7 @@ function Message({ type, children }) {
         <p className={type}>{children}</p>
       </div>
     </>
-  )
-};
+  );
+}
 
 export default Message;

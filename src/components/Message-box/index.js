@@ -17,9 +17,13 @@ export default class MessageBox extends Component {
       <>
         <h1 className="title">Chat Realtime</h1>
         <div className="message-box" ref={this.boxChat}>
-          {messages.map((item, index) => <Message key={index} type={'receive'}>{item.text}</Message>)}
+          {messages.map((item, index) => (
+            <Message key={index} type={'send'}>
+              {item.text}
+            </Message>
+          ))}
         </div>
       </>
-    )
+    );
   }
-};
+}
