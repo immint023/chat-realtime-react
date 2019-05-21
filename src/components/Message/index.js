@@ -2,7 +2,7 @@ import React from 'react';
 
 import './style.css';
 
-function Message({ type, children }) {
+export default function Message({ type, children }) {
   let divClass;
   if (type === 'send') {
     divClass = 'message-send';
@@ -17,5 +17,3 @@ function Message({ type, children }) {
     </>
   );
 }
-
-export default Message;

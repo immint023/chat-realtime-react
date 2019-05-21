@@ -19,7 +19,7 @@ export default class Chat extends Component {
 
   componentDidMount() {
     axios
-      .get('https://4bacb0c3.ngrok.io/api/messages')
+      .get('https://ecd74bab.ngrok.io/api/messages')
       .then(res => {
         const messages = [];
         for (let key in res.data) {
@@ -44,7 +44,7 @@ export default class Chat extends Component {
       const { messages } = this.state;
       socket.emit('send', { text: value });
       axios
-        .post('https://4bacb0c3.ngrok.io/api/messages', {
+        .post('https://ecd74bab.ngrok.io/api/messages', {
           text: value,
         })
         .then(res => console.log(res))
