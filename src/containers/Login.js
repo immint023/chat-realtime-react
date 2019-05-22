@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
-import axios from 'axios';
-import Cookies from 'universal-cookie';
+import fire from '../config/Fire';
 
 import LoginForm from '../components/Forms/Login';
 
@@ -27,17 +26,12 @@ export default class LoginPage extends Component {
     }
   };
   handleClick = () => {
-    axios
-      .post('https://ecd74bab.ngrok.io/api/auth/login', {
-        email: this.state.email,
-        password: this.state.password,
-      })
-      .then(res => {
-        console.log(res.data);
-      })
-      .catch(err => {
-        console.log(err.response);
-      });
+    const { email, password } = this.state;
+    fire
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(data => console.log(data))
+      .catch(err => console.error(err));
   };
   render() {
     return (

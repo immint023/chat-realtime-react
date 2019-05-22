@@ -1,39 +1,41 @@
 import React, { Component } from 'react';
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-} from 'react-router-dom';
+import fire from './config/Fire';
 
-import Cookies from 'universal-cookie';
-import LoginPage from './containers/Login';
+import Login from './containers/Login';
+import SignUp from './containers/Sign-Up';
 import Chat from './containers/Chat';
 
 import './App.css';
 
-// const cookies = new Cookies();
-
-// function AuthCookie() {
-//   const cookie = cookies.get('jwt');
-//   if (!cookie) {
-//     return false;
-//   }
-// }
-
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: null,
+    };
+  }
+
+  componentDidMount() {
+    this.authListener();
+  }
+
+  authListener() {
+    fire.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState({
+          user,
+        });
+      } else {
+        this.setState({
+          user: null,
+        });
+      }
+    });
+  }
   render() {
-    return (
-      <Router>
-        <div className="App">
-          <Switch>
-            <Route exact path="/" component={Chat} />
-            <Route path="/login" component={LoginPage} />
-          </Switch>
-        </div>
-      </Router>
-    );
+    return <>{this.state.user ? <Chat /> : <Login />}</>;
+    // return <SignUp />;
   }
 }
 

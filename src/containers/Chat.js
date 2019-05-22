@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 
-import axios from 'axios';
-import io from 'socket.io-client';
+import fire from '../config/Fire';
 import MessageBox from '../components/Message-box';
 import TypeMessageForm from '../components/Forms/Type-Message';
-
-const socket = io('localhost:3001');
 
 export default class Chat extends Component {
   constructor(props) {
@@ -13,52 +10,78 @@ export default class Chat extends Component {
     this.state = {
       messages: [],
     };
-    this.data = '';
-    this.chatBox = React.createRef();
   }
 
   componentDidMount() {
-    axios
-      .get('https://ecd74bab.ngrok.io/api/messages')
-      .then(res => {
-        const messages = [];
-        for (let key in res.data) {
-          messages.push(res.data[key]);
-        }
+    fire
+      .database()
+      .ref('/messages/')
+      .on('child_added', snap => {
         this.setState({
-          messages,
+          messages: this.state.messages.concat(snap.val()),
         });
-      })
-      .catch(err => console.error(err));
+      });
   }
   componentWillMount() {
-    socket.on('send', data => {
-      this.setState({
-        messages: this.state.messages.concat(data),
+    fire
+      .database()
+      .ref('/messages/')
+      .once('value')
+      .then(snap => {
+        const messages = snap.val();
+        if (messages) {
+          this.setState({
+            messages: Object.values(messages),
+          });
+        }
       });
-    });
   }
   handleKeyDown = e => {
     const { value } = document.querySelector('input');
+    const uid = fire.auth().currentUser.uid;
     if (e.keyCode === 13 && value.trim() !== '') {
       const { messages } = this.state;
-      socket.emit('send', { text: value });
-      axios
-        .post('https://ecd74bab.ngrok.io/api/messages', {
+      fire
+        .database()
+        .ref('/messages/')
+        .push()
+        .set({
           text: value,
+          uid,
         })
-        .then(res => console.log(res))
+        .then(() => console.log('sent'))
         .catch(err => console.error(err));
+
       this.setState({
-        messages: messages.concat({ text: value }),
+        messages: messages.concat({ text: value, uid }),
       });
       document.querySelector('input').value = '';
     }
+  };
+  handleSignOut = () => {
+    fire
+      .auth()
+      .signOut()
+      .then(() => console.log('Success'))
+      .catch(err => console.error(err));
+    console.log('1');
   };
   render() {
     const { messages } = this.state;
     return (
       <>
+        <button
+          style={{
+            float: 'right',
+            width: '70px',
+            height: '70px',
+            borderRadius: '50%',
+            margin: '10px',
+          }}
+          onClick={this.handleSignOut}
+        >
+          Log out
+        </button>
         <MessageBox messages={messages} />
         <TypeMessageForm handleKeyDown={this.handleKeyDown} />
       </>
