@@ -16,26 +16,19 @@ export default class Chat extends Component {
     fire
       .database()
       .ref('/messages/')
+      .once('value')
+      .then(data => console.log(data.val()));
+    fire
+      .database()
+      .ref('/messages/')
       .on('child_added', snap => {
+        console.log(snap.val());
         this.setState({
           messages: this.state.messages.concat(snap.val()),
         });
       });
   }
-  componentWillMount() {
-    fire
-      .database()
-      .ref('/messages/')
-      .once('value')
-      .then(snap => {
-        const messages = snap.val();
-        if (messages) {
-          this.setState({
-            messages: Object.values(messages),
-          });
-        }
-      });
-  }
+
   handleKeyDown = e => {
     const { value } = document.querySelector('input');
     const uid = fire.auth().currentUser.uid;
@@ -64,7 +57,6 @@ export default class Chat extends Component {
       .signOut()
       .then(() => console.log('Success'))
       .catch(err => console.error(err));
-    console.log('1');
   };
   render() {
     const { messages } = this.state;

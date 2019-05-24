@@ -5,10 +5,10 @@ import Button from '../../Button';
 
 import './style.css';
 
-export default function LoginForm({ handleChange, handleClick }) {
+export default function LoginForm({ handleChange, handleClick, isAlert }) {
   return (
     <div className="Login">
-      <form>
+      <form className={isAlert}>
         <h1>Login Page</h1>
         <Input type="text" placeholder="email" handleChange={handleChange} />
         <br />

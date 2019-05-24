@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import fire from './config/Fire';
 
 import Login from './containers/Login';
-import SignUp from './containers/Sign-Up';
+// import SignUp from './containers/Sign-Up';
 import Chat from './containers/Chat';
 
 import './App.css';

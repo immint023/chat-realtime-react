@@ -10,8 +10,10 @@ export default class LoginPage extends Component {
     this.state = {
       email: '',
       password: '',
+      isError: false,
     };
   }
+
   handleChange = ({ target }) => {
     if (target.type === 'text') {
       this.setState({
@@ -25,18 +27,24 @@ export default class LoginPage extends Component {
       });
     }
   };
+
   handleClick = () => {
     const { email, password } = this.state;
     fire
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(data => console.log(data))
-      .catch(err => console.error(err));
+      .catch(err => {
+        this.setState({
+          isError: true,
+        });
+      });
   };
   render() {
     return (
       <>
         <LoginForm
+          isAlert={this.state.isError ? 'alert' : ''}
           handleClick={this.handleClick}
           handleChange={this.handleChange}
         />

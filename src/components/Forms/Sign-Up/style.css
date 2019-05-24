@@ -21,9 +21,9 @@ form {
 h1 {
   text-align: center;
   margin-bottom: 10px;
-  font-size: 3em;
+  font-size: 2em;
   color: #00b894;
-  font-family: 'Amatic SC', cursive;
+  font-family: 'Roboto', sans-serif;
 }
 @media screen and (max-width: 992px) {
   .Login form input {

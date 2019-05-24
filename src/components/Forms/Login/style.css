@@ -3,7 +3,7 @@ form {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  box-shadow: 0 6px 15px rgba(36,37,38,0.08);
+  box-shadow: 0 6px 15px rgba(36, 37, 38, 0.08);
   border-radius: 10px;
   width: 70%;
   padding: 30px;
@@ -12,6 +12,27 @@ form {
   align-items: center;
   background: white;
 }
+form.alert {
+  animation: alert 0.5s linear;
+}
+@keyframes alert {
+  0% {
+    left: 50%;
+  }
+  25% {
+    left: 52%;
+  }
+  50% {
+    left: 48%;
+  }
+  75% {
+    left: 52%;
+  }
+  100% {
+    left: 50%;
+  }
+}
+
 .Login form input {
   padding: 5px 0;
   border-radius: 0;
@@ -21,9 +42,9 @@ form {
 h1 {
   text-align: center;
   margin-bottom: 10px;
-  font-size: 3em;
+  font-size: 2em;
   color: #00b894;
-  font-family: 'Amatic SC', cursive;
+  font-family: 'Roboto', sans-serif;
 }
 @media screen and (max-width: 992px) {
   .Login form input {
