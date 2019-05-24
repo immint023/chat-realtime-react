@@ -1,82 +1,63 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import fire from '../config/Fire';
 import MessageBox from '../components/Message-box';
 import TypeMessageForm from '../components/Forms/Type-Message';
 
-export default class Chat extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      messages: [],
-    };
-  }
+export default function Chat() {
+  let [messages, setMessage] = useState([]);
 
-  componentDidMount() {
-    fire
-      .database()
-      .ref('/messages/')
-      .once('value')
-      .then(data => console.log(data.val()));
-    fire
-      .database()
-      .ref('/messages/')
-      .on('child_added', snap => {
-        console.log(snap.val());
-        this.setState({
-          messages: this.state.messages.concat(snap.val()),
-        });
-      });
-  }
+  const messagesDbRef = useRef(fire.database().ref('messages'));
+  useEffect(() => {
+    messagesDbRef.current.limitToLast(10).on('child_added', snap => {
+      messages = messages.concat(snap.val());
+      setMessage(messages);
+    });
+  }, []);
 
-  handleKeyDown = e => {
-    const { value } = document.querySelector('input');
+  const handleKeyDown = e => {
     const uid = fire.auth().currentUser.uid;
+    const value = document.querySelector('input').value;
+    const message = {
+      text: value,
+      uid,
+    };
     if (e.keyCode === 13 && value.trim() !== '') {
-      const { messages } = this.state;
-      fire
-        .database()
-        .ref('/messages/')
+      messagesDbRef.current
         .push()
-        .set({
-          text: value,
-          uid,
-        })
+        .set(message)
         .then(() => console.log('sent'))
         .catch(err => console.error(err));
 
-      this.setState({
-        messages: messages.concat({ text: value, uid }),
-      });
+      setMessage(messages.concat(message));
       document.querySelector('input').value = '';
     }
   };
-  handleSignOut = () => {
+
+  const handleSignOut = () => {
     fire
       .auth()
       .signOut()
       .then(() => console.log('Success'))
       .catch(err => console.error(err));
   };
-  render() {
-    const { messages } = this.state;
-    return (
-      <>
-        <button
-          style={{
-            float: 'right',
-            width: '70px',
-            height: '70px',
-            borderRadius: '50%',
-            margin: '10px',
-          }}
-          onClick={this.handleSignOut}
-        >
-          Log out
-        </button>
-        <MessageBox messages={messages} />
-        <TypeMessageForm handleKeyDown={this.handleKeyDown} />
-      </>
-    );
-  }
+
+  return (
+    <>
+      <button
+        style={{
+          float: 'right',
+          width: '70px',
+          height: '70px',
+          borderRadius: '50%',
+          margin: '10px',
+        }}
+        onClick={handleSignOut}
+      >
+        Log out
+      </button>
+      <MessageBox messages={messages} />
+      <TypeMessageForm handleKeyDown={handleKeyDown} />
+    </>
+  );
 }
