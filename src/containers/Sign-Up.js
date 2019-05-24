@@ -1,45 +1,28 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 import fire from '../config/Fire';
 
 import SignUpForm from '../components/Forms/Sign-Up';
 
-export default class SignUp extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-      username: '',
-    };
-  }
-  handleChange = ({ target }) => {
+export default function SignUp() {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleChange = ({ target }) => {
     const { placeholder, value } = target;
     switch (placeholder) {
       case 'email':
-        this.setState({
-          email: value,
-          password: this.state.password,
-          username: this.state.username,
-        });
+        setEmail(value);
         break;
       case 'password':
-        this.setState({
-          email: this.state.email,
-          password: value,
-          username: this.state.username,
-        });
+        setPassword(value);
         break;
       default:
-        this.setState({
-          email: this.state.email,
-          password: this.state.password,
-          username: value,
-        });
+        setUsername(value);
     }
   };
-  handleClick = () => {
-    const { email, password, username } = this.state;
+  const handleClick = () => {
     fire
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -55,14 +38,10 @@ export default class SignUp extends Component {
       )
       .catch(err => console.error(err));
   };
-  render() {
-    return (
-      <>
-        <SignUpForm
-          handleClick={this.handleClick}
-          handleChange={this.handleChange}
-        />
-      </>
-    );
-  }
+
+  return (
+    <>
+      <SignUpForm handleClick={handleClick} handleChange={handleChange} />
+    </>
+  );
 }
