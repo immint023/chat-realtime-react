@@ -14,7 +14,6 @@ export default function MessageBox({ messages }) {
 
   return (
     <>
-      <h1 className="title">Chat Realtime</h1>
       <div className="message-box" ref={boxChat}>
         {messages.map((item, index) => (
           <Message key={index} type={item.uid === uid ? 'send' : 'receive'}>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import fire from './config/Fire';
 
-import Login from './containers/Login';
+import Login from './containers/Sign-In';
 // import SignUp from './containers/Sign-Up';
 import Chat from './containers/Chat';
 

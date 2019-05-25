@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import fire from '../config/Fire';
-import LoginForm from '../components/Forms/Login';
+import LoginForm from '../components/Forms/LoginUI';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -9,24 +9,30 @@ export default function Login() {
   const [isError, setError] = useState(false);
 
   const handlechange = ({ target: { type, value } }) => {
-    console.log(value);
-    type === 'text' ? setEmail(value) : setPassword(value);
+    type === 'email' ? setEmail(value) : setPassword(value);
   };
 
+  const handleFocus = () => setError(false);
+
   const handleClick = () => {
+    setError(false);
     fire
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(data => console.log(data))
-      .catch(() => setError(true));
+      .catch(err => {
+        console.log(err);
+        setError(true);
+      });
   };
 
   return (
     <>
       <LoginForm
-        isAlert={isError ? 'alert' : ''}
-        handleClick={handleClick}
         handleChange={handlechange}
+        handleFocus={handleFocus}
+        handleClick={handleClick}
+        isError={isError}
       />
     </>
   );

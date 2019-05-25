@@ -31,6 +31,7 @@ export default function LoginForm({
                 name="email"
                 id="exampleEmail"
                 placeholder="Email"
+                className="shadow-none"
                 onChange={handleChange}
                 onFocus={handleFocus}
               />
@@ -43,11 +44,17 @@ export default function LoginForm({
                 type="password"
                 name="password"
                 id="examplePassword"
+                className="shadow-none"
                 placeholder="Password"
                 onChange={handleChange}
+                onFocus={handleFocus}
               />
             </FormGroup>
-            <Button color="primary" onClick={handleClick}>
+            <Button
+              className="shadow-none mt-3"
+              color="primary"
+              onClick={handleClick}
+            >
               Login
             </Button>
           </Form>

@@ -1,29 +1,34 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+import { Container, Row, Col, Button } from 'reactstrap';
+import MessagesBox from '../components/Message-box';
+import TypeMessage from '../components/Forms/Type-Message';
+
 import fire from '../config/Fire';
-import MessageBox from '../components/Message-box';
-import TypeMessageForm from '../components/Forms/Type-Message';
-import Button from '../components/Button';
 
 export default function Chat() {
-  let [messages, setMessage] = useState([]);
+  const [messages, setMessage] = useState([]);
 
   const messagesDbRef = useRef(fire.database().ref('messages'));
   useEffect(() => {
-    messagesDbRef.current.limitToLast(10).on('child_added', snap => {
-      messages = messages.concat(snap.val());
-      setMessage(messages);
+    messagesDbRef.current.limitToLast(10).on('value', snap => {
+      const transformedMessages = Object.values(snap.val());
+      setMessage(transformedMessages);
     });
+
+    return () => {
+      messagesDbRef.current.off();
+    };
   }, []);
 
-  const handleKeyDown = e => {
+  const handleKeyDown = ({ which, target }) => {
+    const { value } = target;
     const uid = fire.auth().currentUser.uid;
-    const value = document.querySelector('input').value;
     const message = {
       text: value,
       uid,
     };
-    if (e.keyCode === 13 && value.trim() !== '') {
+    if (which === 13 && value.trim() !== '') {
       messagesDbRef.current
         .push()
         .set(message)
@@ -31,9 +36,11 @@ export default function Chat() {
         .catch(err => console.error(err));
 
       setMessage(messages.concat(message));
-      document.querySelector('input').value = '';
+      target.value = '';
     }
   };
+
+  const handleClick = () => {};
 
   const handleSignOut = () => {
     fire
@@ -45,9 +52,18 @@ export default function Chat() {
 
   return (
     <>
-      <Button handleClick={handleSignOut}>Log out</Button>
-      <MessageBox messages={messages} />
-      <TypeMessageForm handleKeyDown={handleKeyDown} />
+      <Button onClick={handleSignOut}>Log out</Button>
+      <Container>
+        <Row>
+          <Col sm="12" md={{ size: 8, offset: 2 }}>
+            <MessagesBox messages={messages} />
+            <TypeMessage
+              handleKeyDown={handleKeyDown}
+              handleClick={handleClick}
+            />
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }

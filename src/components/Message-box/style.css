@@ -1,16 +1,7 @@
-.title {
-  text-align: center;
-  font-size: 3em;
-  color: #00b894;
-  font-family: 'Amatic SC', cursive;
-}
 .message-box {
   border: 1px solid none;
   height: 68vh;
-  width: 70%;
   margin: auto;
-  margin-top: 20px;
-  margin-bottom: 20px;
   padding: 10px;
   border-radius: 10px;
   overflow: scroll;
@@ -18,9 +9,9 @@
   scroll-behavior: smooth;
   background: white;
   position: relative;
-  box-shadow: 0 6px 15px rgba(36,37,38,0.08);
+  box-shadow: 0 6px 15px rgba(36, 37, 38, 0.08);
 }
 
-::-webkit-scrollbar { 
-  display: none; 
+::-webkit-scrollbar {
+  display: none;
 }
