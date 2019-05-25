@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import fire from '../config/Fire';
 import MessageBox from '../components/Message-box';
 import TypeMessageForm from '../components/Forms/Type-Message';
+import Button from '../components/Button';
 
 export default function Chat() {
   let [messages, setMessage] = useState([]);
@@ -44,18 +45,7 @@ export default function Chat() {
 
   return (
     <>
-      <button
-        style={{
-          float: 'right',
-          width: '70px',
-          height: '70px',
-          borderRadius: '50%',
-          margin: '10px',
-        }}
-        onClick={handleSignOut}
-      >
-        Log out
-      </button>
+      <Button handleClick={handleSignOut}>Log out</Button>
       <MessageBox messages={messages} />
       <TypeMessageForm handleKeyDown={handleKeyDown} />
     </>

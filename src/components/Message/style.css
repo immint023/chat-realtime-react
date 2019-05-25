@@ -1,13 +1,13 @@
 .receive {
   display: inline-block;
   max-width: 30%;
-  padding: .86rem;
+  padding: 0.86rem;
   margin-bottom: 15px;
   border-radius: 10px;
   background: #ecf0f1;
   font-family: 'Varela Round', sans-serif;
-  font-size: .8em;
-  background: #EEEEEE;
+  font-size: 0.8em;
+  background: #eeeeee;
   color: black;
   word-break: break-all;
   box-shadow: 4px 4px 12 #f4f4f4;
@@ -21,11 +21,11 @@
 .send {
   display: inline-block;
   max-width: 30%;
-  font-size: .86em;
+  font-size: 0.86em;
   margin-bottom: 15px;
-  padding: .6rem;
+  padding: 0.6rem;
   border-radius: 10px;
-  background:#26de81;
+  background: #26de81;
   color: white;
   font-family: 'Varela Round', sans-serif;
   word-break: break-all;
